@@ -252,6 +252,50 @@ html {
     box-shadow: 0 0 150px 10px var(--bela-tamnija);
 }
 
+#nosacOnama {
+    opacity: 0;
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+#nosacKontakt {
+    opacity: 0;
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#map {
+    z-index: 1;
+    width: 80%;
+    height: 70%;
+    border: 1px solid var(--bela-tamnija);
+    margin-bottom: 25px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#nosacKontakt h4 {
+    font-size: 1.5rem;
+}
+
+#nosacKontakt a {
+    color: var(--bela-tamnija);
+    font-size: 1.5rem;
+}
+
 #futer {
     grid-column: 2/3;
     grid-row: 3/4;
