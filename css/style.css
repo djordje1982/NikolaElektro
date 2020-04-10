@@ -102,10 +102,11 @@ html {
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: -3;
 }
 
 #nosacHome {
-
+    z-index: -2;
     position: absolute;
     top: 0;
     left: 0;
@@ -128,26 +129,26 @@ html {
 }
 
 #nosacUsluge {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 90%;
-    display: none;
+    position: relative;
+    width: 60%;
+    height: 100%;
+    display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
     font-size: 1.6rem;
     opacity: 0;
-    z-index: -1;
+    z-index: -2;
 }
 
 .usluge {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 55%;
+    width: 100%;
     padding: 10px 0;
+    height: 25%;
+
 }
 
 .usluge:not(:last-of-type) {
@@ -156,7 +157,6 @@ html {
 
 .usluge div {
     vertical-align: middle;
-
 }
 
 .usluge img {
@@ -166,9 +166,33 @@ html {
     overflow: hidden;
 }
 
+.usluge:nth-child(1) {
+    position: absolute;
+    top: 0;
+    left: -200px;
+    opacity: 0;
+}
 
+.usluge:nth-child(2) {
+    position: absolute;
+    top: 25%;
+    left: 200px;
+    opacity: 0;
+}
 
+.usluge:nth-child(3) {
+    position: absolute;
+    top: 50%;
+    left: -200px;
+    opacity: 0;
+}
 
+.usluge:nth-child(4) {
+    position: absolute;
+    top: 75%;
+    left: 200px;
+    opacity: 0;
+}
 
 .poruka {
 
@@ -253,8 +277,9 @@ html {
 }
 
 #nosacOnama {
+    z-index: -2;
     opacity: 0;
-    display: none;
+    display: flex;
     position: absolute;
     top: 0;
     left: 0;
@@ -264,9 +289,14 @@ html {
     height: 100%;
 }
 
-#nosacKontakt {
+#nosacOnama h2 {
     opacity: 0;
-    display: none;
+}
+
+#nosacKontakt {
+    z-index: -2;
+    opacity: 0;
+    display: flex;
     position: absolute;
     top: 0;
     left: 0;
@@ -279,21 +309,24 @@ html {
 
 #map {
     z-index: 1;
-    width: 80%;
-    height: 70%;
+    width: 0%;
+    height: 0%;
     border: 1px solid var(--bela-tamnija);
     margin-bottom: 25px;
     border-radius: 10px;
     overflow: hidden;
+    transform-origin: center;
 }
 
 #nosacKontakt h4 {
     font-size: 1.5rem;
+    opacity: 0;
 }
 
 #nosacKontakt a {
     color: var(--bela-tamnija);
     font-size: 1.5rem;
+    opacity: 0;
 }
 
 #futer {
@@ -302,7 +335,6 @@ html {
     opacity: 0;
     background-color: black;
 }
-
 
 
 .futer-dole {

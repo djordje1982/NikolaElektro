@@ -1,12 +1,13 @@
 window.onload = function () {
     this.loadHome()
+
 };
 
 const poruke = document.querySelectorAll('.poruka h2')
 const poruka1 = document.querySelector('.poruka h2:nth-child(1)')
 const poruka2 = document.querySelector('.poruka h2:nth-child(2)')
 const poruka3 = document.querySelector('.poruka h2:nth-child(3)')
-console.log(poruke);
+const mapa = document.getElementById('map');
 
 const dugmeHome = document.getElementById('home')
 const dugmeUsluge = document.getElementById('usluge')
@@ -20,21 +21,18 @@ const nosacUsluge = document.getElementById('nosacUsluge')
 const nosacOnama = document.getElementById('nosacOnama')
 const nosacKontakt = document.getElementById('nosacKontakt')
 
+const usluge = document.getElementsByClassName('usluge');
+const usluga1 = document.querySelector('.usluge:nth-child(1)')
+const usluga2 = document.querySelector('.usluge:nth-child(2)')
+const usluga3 = document.querySelector('.usluge:nth-child(3)')
+const usluga4 = document.querySelector('.usluge:nth-child(4)')
+
+const privH2 = document.querySelector('#nosacOnama h2')
+
+const kontaktEl = document.querySelectorAll('#nosacKontakt h4, #nosacKontakt a')
+
 const trajanje = 1200
 
-function resetHome() {
-    poruka1.style.top = '150px';
-    poruka1.style.opacity = '0';
-
-
-    poruka2.style.top = '250px';
-    poruka2.style.opacity = '0';
-
-    poruka3.style.top = '350px';
-    poruka3.style.opacity = '0'
-
-
-}
 
 function loadHome() {
 
@@ -92,86 +90,124 @@ function loadHome() {
     }, 1000);
 }
 
-function loadUsluge() {
-
-    anime({
-        targets: nosacUsluge,
-        opacity: 1,
-        easing: 'linear',
-        duration: trajanje
-    })
+function resetHome() {
+    nosacHome.style.cssText = "";
+    poruka1.style.cssText = "";
+    poruka2.style.cssText = "";
+    poruka3.style.cssText = "";
 }
 
-function loadOnama() {
-
+function loadUsluge() {
+    nosacUsluge.style.opacity = '1'
     anime({
-        targets: nosacOnama,
+        targets: [usluga1],
+        translateX: 200,
+        direction: 'normal',
         opacity: 1,
-        easing: 'linear',
-        duration: trajanje
-    })
+        loop: false,
+        delay: 750,
+        duration: 2800
+    });
+    anime({
+        targets: [usluga2],
+        translateX: -200,
+        direction: 'normal',
+        opacity: 1,
+        loop: false,
+        delay: 500,
+        duration: 2800
+    });
+    anime({
+        targets: [usluga3],
+        translateX: 200,
+        direction: 'normal',
+        opacity: 1,
+        loop: false,
+        delay: 250,
+        duration: 2800
+    });
+    anime({
+        targets: [usluga4],
+        translateX: -200,
+        direction: 'normal',
+        opacity: 1,
+        loop: false,
+        delay: 0,
+        duration: 2800
+    });
+    console.log('uspelko');
+}
+
+function resetUsluge() {
+    usluga1.style.cssText = "";
+    usluga2.style.cssText = "";
+    usluga3.style.cssText = "";
+    usluga4.style.cssText = "";
 }
 
 function loadKontakt() {
-
+    nosacKontakt.style.opacity = '1'
+    const animation = anime({
+        targets: mapa,
+        width: '80%',
+        easing: 'linear',
+        duration: 1000
+    });
+    animation.finished.then(() => {
+        anime({
+            targets: mapa,
+            height: '70%',
+            easing: 'linear',
+            duration: 1000
+        });
+        map.renderSync();
+    })
     anime({
-        targets: nosacKontakt,
+        targets: kontaktEl,
         opacity: 1,
         easing: 'linear',
-        duration: 2000
-    })
+        duration: 3000,
+        delay: 1500
+    });
+}
+
+function loadOnama() {
+    nosacOnama.style.opacity = '1'
+    anime({
+        targets: privH2,
+        direction: 'normal',
+        opacity: 1,
+        loop: false,
+        delay: 0,
+        duration: 1400
+    });
 
 }
 
+function resetOnama() {
+    privH2.style.cssText = "";
+}
 
-const meni = document.getElementById('nav');
-console.log(meni);
+function resetKontakt() {
+    mapa.style.cssText = '';
+}
 
-anime({
-    targets: meni,
-    translateX: '100%',
-    duration: 2000,
-    delay: 500
-})
+dugmeUsluge.addEventListener('click', () => {
 
-
-
-const naslov = document.getElementById('naslov');
-const futer = document.getElementById('futer');
-const logo = document.getElementById('logo');
-
-anime({
-    targets: [naslov, futer, logo],
-    opacity: 1,
-    duration: 2500,
-    delay: 1000,
-    easing: 'linear'
-})
-
-
-
-
-
-dugmeHome.addEventListener('click', () => {
     if (dugmeHome.classList.contains('aktivnoD')) {
-
-    } else if (dugmeUsluge.classList.contains('aktivnoD')) {
-        resetHome()
-        dugmeUsluge.classList.remove('aktivnoD');
-        dugmeHome.classList.add('aktivnoD');
+        resetUsluge();
+        dugmeHome.classList.remove('aktivnoD');
+        dugmeUsluge.classList.add('aktivnoD');
         const animation = anime({
-            targets: nosacUsluge,
+            targets: nosacHome,
             opacity: 0,
             easing: 'linear',
-            duration: trajanje
+            duration: 1000
+        });
+        animation.finished.then(() => {
+            loadUsluge();
         })
-        animation.finished.then(function () {
-            nosacHome.style.display = 'flex'
-            nosacUsluge.style.display = 'none'
-            nosacHome.style.opacity = 1
-            loadHome()
 
-        })
         const animation1 = anime({
             targets: naslovna,
             translateY: -300,
@@ -181,7 +217,7 @@ dugmeHome.addEventListener('click', () => {
         })
         animation1.finished.then(function () {
 
-            naslovna.innerText = 'Dobrodošli'
+            naslovna.innerText = 'Usluge'
             anime({
                 targets: naslovna,
                 translateY: 0,
@@ -190,21 +226,19 @@ dugmeHome.addEventListener('click', () => {
             })
         })
     } else if (dugmeOnama.classList.contains('aktivnoD')) {
+        resetUsluge();
         dugmeOnama.classList.remove('aktivnoD');
-        dugmeHome.classList.add('aktivnoD');
-        resetHome()
+        dugmeUsluge.classList.add('aktivnoD');
         const animation = anime({
             targets: nosacOnama,
             opacity: 0,
             easing: 'linear',
-            duration: trajanje
+            duration: 1000
+        });
+        animation.finished.then(() => {
+            loadUsluge();
         })
-        animation.finished.then(function () {
-            nosacHome.style.display = 'flex'
-            nosacOnama.style.display = 'none'
-            loadHome()
 
-        })
         const animation1 = anime({
             targets: naslovna,
             translateY: -300,
@@ -214,7 +248,7 @@ dugmeHome.addEventListener('click', () => {
         })
         animation1.finished.then(function () {
 
-            naslovna.innerText = 'Dobrodošli'
+            naslovna.innerText = 'Usluge'
             anime({
                 targets: naslovna,
                 translateY: 0,
@@ -223,21 +257,19 @@ dugmeHome.addEventListener('click', () => {
             })
         })
     } else if (dugmeKontakt.classList.contains('aktivnoD')) {
+        resetUsluge();
         dugmeKontakt.classList.remove('aktivnoD');
-        dugmeHome.classList.add('aktivnoD');
-        resetHome()
+        dugmeUsluge.classList.add('aktivnoD');
         const animation = anime({
             targets: nosacKontakt,
             opacity: 0,
             easing: 'linear',
-            duration: trajanje
+            duration: 1000
+        });
+        animation.finished.then(() => {
+            loadUsluge();
         })
-        animation.finished.then(function () {
-            nosacHome.style.display = 'flex'
-            nosacKontakt.style.display = 'none'
-            loadHome()
 
-        })
         const animation1 = anime({
             targets: naslovna,
             translateY: -300,
@@ -247,7 +279,7 @@ dugmeHome.addEventListener('click', () => {
         })
         animation1.finished.then(function () {
 
-            naslovna.innerText = 'Dobrodošli'
+            naslovna.innerText = 'Usluge'
             anime({
                 targets: naslovna,
                 translateY: 0,
@@ -258,23 +290,22 @@ dugmeHome.addEventListener('click', () => {
     }
 })
 
-dugmeUsluge.addEventListener('click', () => {
-    if (dugmeUsluge.classList.contains('aktivnoD')) {
+dugmeHome.addEventListener('click', () => {
 
-    } else if (dugmeHome.classList.contains('aktivnoD')) {
-        dugmeHome.classList.remove('aktivnoD');
-        dugmeUsluge.classList.add('aktivnoD');
+    if (dugmeUsluge.classList.contains('aktivnoD')) {
+        resetHome()
+        dugmeUsluge.classList.remove('aktivnoD');
+        dugmeHome.classList.add('aktivnoD');
         const animation = anime({
-            targets: nosacHome,
+            targets: nosacUsluge,
             opacity: 0,
             easing: 'linear',
-            duration: trajanje
+            duration: 1000
+        });
+        animation.finished.then(() => {
+            loadHome();
         })
-        animation.finished.then(function () {
-            nosacHome.style.display = 'none'
-            nosacUsluge.style.display = 'flex'
-            loadUsluge()
-        })
+
         const animation1 = anime({
             targets: naslovna,
             translateY: -300,
@@ -284,7 +315,7 @@ dugmeUsluge.addEventListener('click', () => {
         })
         animation1.finished.then(function () {
 
-            naslovna.innerText = 'Usluge'
+            naslovna.innerText = 'Dobrodošli'
             anime({
                 targets: naslovna,
                 translateY: 0,
@@ -293,20 +324,19 @@ dugmeUsluge.addEventListener('click', () => {
             })
         })
     } else if (dugmeOnama.classList.contains('aktivnoD')) {
+        resetHome();
         dugmeOnama.classList.remove('aktivnoD');
-        dugmeUsluge.classList.add('aktivnoD');
+        dugmeHome.classList.add('aktivnoD');
         const animation = anime({
             targets: nosacOnama,
             opacity: 0,
             easing: 'linear',
-            duration: trajanje
+            duration: 1000
+        });
+        animation.finished.then(() => {
+            loadHome();
         })
-        animation.finished.then(function () {
-            nosacUsluge.style.display = 'flex'
-            nosacOnama.style.display = 'none'
-            loadUsluge()
 
-        })
         const animation1 = anime({
             targets: naslovna,
             translateY: -300,
@@ -316,7 +346,7 @@ dugmeUsluge.addEventListener('click', () => {
         })
         animation1.finished.then(function () {
 
-            naslovna.innerText = 'Usluge'
+            naslovna.innerText = 'Dobrodošli'
             anime({
                 targets: naslovna,
                 translateY: 0,
@@ -325,20 +355,19 @@ dugmeUsluge.addEventListener('click', () => {
             })
         })
     } else if (dugmeKontakt.classList.contains('aktivnoD')) {
+        resetHome();
         dugmeKontakt.classList.remove('aktivnoD');
-        dugmeUsluge.classList.add('aktivnoD');
+        dugmeHome.classList.add('aktivnoD');
         const animation = anime({
             targets: nosacKontakt,
             opacity: 0,
             easing: 'linear',
-            duration: trajanje
+            duration: 1000
+        });
+        animation.finished.then(() => {
+            loadHome();
         })
-        animation.finished.then(function () {
-            nosacHome.style.display = 'flex'
-            nosacKontakt.style.display = 'none'
-            loadUsluge()
 
-        })
         const animation1 = anime({
             targets: naslovna,
             translateY: -300,
@@ -348,7 +377,7 @@ dugmeUsluge.addEventListener('click', () => {
         })
         animation1.finished.then(function () {
 
-            naslovna.innerText = 'Usluge'
+            naslovna.innerText = 'Dobrodošli'
             anime({
                 targets: naslovna,
                 translateY: 0,
@@ -360,22 +389,21 @@ dugmeUsluge.addEventListener('click', () => {
 })
 
 dugmeOnama.addEventListener('click', () => {
-    if (dugmeOnama.classList.contains('aktivnoD')) {
 
-    } else if (dugmeHome.classList.contains('aktivnoD')) {
+    if (dugmeHome.classList.contains('aktivnoD')) {
+        resetOnama()
         dugmeHome.classList.remove('aktivnoD');
         dugmeOnama.classList.add('aktivnoD');
         const animation = anime({
             targets: nosacHome,
             opacity: 0,
             easing: 'linear',
-            duration: trajanje
+            duration: 1000
+        });
+        animation.finished.then(() => {
+            loadOnama();
         })
-        animation.finished.then(function () {
-            nosacHome.style.display = 'none'
-            nosacOnama.style.display = 'flex'
-            loadOnama()
-        })
+
         const animation1 = anime({
             targets: naslovna,
             translateY: -300,
@@ -385,7 +413,7 @@ dugmeOnama.addEventListener('click', () => {
         })
         animation1.finished.then(function () {
 
-            naslovna.innerText = 'O nama'
+            naslovna.innerText = 'Onama'
             anime({
                 targets: naslovna,
                 translateY: 0,
@@ -394,20 +422,19 @@ dugmeOnama.addEventListener('click', () => {
             })
         })
     } else if (dugmeUsluge.classList.contains('aktivnoD')) {
+        resetOnama();
         dugmeUsluge.classList.remove('aktivnoD');
         dugmeOnama.classList.add('aktivnoD');
         const animation = anime({
             targets: nosacUsluge,
             opacity: 0,
             easing: 'linear',
-            duration: trajanje
+            duration: 1000
+        });
+        animation.finished.then(() => {
+            loadOnama();
         })
-        animation.finished.then(function () {
-            nosacUsluge.style.display = 'none'
-            nosacOnama.style.display = 'flex'
-            loadOnama()
 
-        })
         const animation1 = anime({
             targets: naslovna,
             translateY: -300,
@@ -426,20 +453,19 @@ dugmeOnama.addEventListener('click', () => {
             })
         })
     } else if (dugmeKontakt.classList.contains('aktivnoD')) {
+        resetOnama();
         dugmeKontakt.classList.remove('aktivnoD');
         dugmeOnama.classList.add('aktivnoD');
         const animation = anime({
             targets: nosacKontakt,
             opacity: 0,
             easing: 'linear',
-            duration: trajanje
+            duration: 1000
+        });
+        animation.finished.then(() => {
+            loadOnama();
         })
-        animation.finished.then(function () {
-            nosacOnama.style.display = 'flex'
-            nosacKontakt.style.display = 'none'
-            loadOnama()
 
-        })
         const animation1 = anime({
             targets: naslovna,
             translateY: -300,
@@ -461,22 +487,22 @@ dugmeOnama.addEventListener('click', () => {
 })
 
 dugmeKontakt.addEventListener('click', () => {
-    if (dugmeKontakt.classList.contains('aktivnoD')) {
 
-    } else if (dugmeHome.classList.contains('aktivnoD')) {
+    if (dugmeHome.classList.contains('aktivnoD')) {
+        resetKontakt()
         dugmeHome.classList.remove('aktivnoD');
         dugmeKontakt.classList.add('aktivnoD');
         const animation = anime({
             targets: nosacHome,
             opacity: 0,
             easing: 'linear',
-            duration: trajanje
+            duration: 1000
+        });
+        animation.finished.then(() => {
+            loadKontakt();
+            map.renderSync();
         })
-        animation.finished.then(function () {
-            nosacHome.style.display = 'none'
-            nosacKontakt.style.display = 'flex'
-            loadKontakt()
-        })
+
         const animation1 = anime({
             targets: naslovna,
             translateY: -300,
@@ -495,20 +521,19 @@ dugmeKontakt.addEventListener('click', () => {
             })
         })
     } else if (dugmeUsluge.classList.contains('aktivnoD')) {
+        resetKontakt();
         dugmeUsluge.classList.remove('aktivnoD');
         dugmeKontakt.classList.add('aktivnoD');
         const animation = anime({
             targets: nosacUsluge,
             opacity: 0,
             easing: 'linear',
-            duration: trajanje
+            duration: 1000
+        });
+        animation.finished.then(() => {
+            loadKontakt();
         })
-        animation.finished.then(function () {
-            nosacUsluge.style.display = 'none'
-            nosacKontakt.style.display = 'flex'
-            loadKontakt()
 
-        })
         const animation1 = anime({
             targets: naslovna,
             translateY: -300,
@@ -527,20 +552,19 @@ dugmeKontakt.addEventListener('click', () => {
             })
         })
     } else if (dugmeOnama.classList.contains('aktivnoD')) {
+        resetKontakt();
         dugmeOnama.classList.remove('aktivnoD');
         dugmeKontakt.classList.add('aktivnoD');
         const animation = anime({
             targets: nosacOnama,
             opacity: 0,
             easing: 'linear',
-            duration: trajanje
+            duration: 1000
+        });
+        animation.finished.then(() => {
+            loadKontakt();
         })
-        animation.finished.then(function () {
-            nosacOnama.style.display = 'none'
-            nosacKontakt.style.display = 'flex'
-            loadKontakt()
 
-        })
         const animation1 = anime({
             targets: naslovna,
             translateY: -300,
@@ -561,10 +585,33 @@ dugmeKontakt.addEventListener('click', () => {
     }
 })
 
+const meni = document.getElementById('nav');
+
+anime({
+    targets: meni,
+    translateX: '100%',
+    duration: 2000,
+    delay: 500
+})
+
+
+const naslov = document.getElementById('naslov');
+const futer = document.getElementById('futer');
+const logo = document.getElementById('logo');
+
+anime({
+    targets: [naslov, futer, logo],
+    opacity: 1,
+    duration: 2500,
+    delay: 1000,
+    easing: 'linear'
+})
+
+
 
 
 /********** MAPA **********/
-const mapa = document.getElementById('map');
+
 const centarMape = [19.880691, 44.619044]
 const map = new ol.Map({
     target: mapa,
@@ -600,6 +647,6 @@ var markerVectorLayer = new ol.layer.Vector({
 marker.setStyle(new ol.style.Style({
     image: new ol.style.Icon(({
         crossOrigin: 'anonymous',
-        //src: './img/'
+        src: './img/car_50px.png'
     }))
 }));
